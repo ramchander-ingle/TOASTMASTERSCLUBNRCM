@@ -1,0 +1,463 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events & Calendars - NRCM Toastmasters</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --nav-bg: #f5f5f5;
+            --primary: #0074d9;
+            --primary-dark: #005fa3;
+            --accent: #18408b;
+            --danger: #ff4d4d;
+            --danger-dark: #c82333;
+        }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #fff;
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+            justify-content: flex-end;
+            align-items: center;
+            background: var(--nav-bg);
+            padding: 10px 0;
+            position: relative;
+        }
+        nav .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background 0.2s, color 0.2s;
+            font-size: 1rem;
+        }
+        nav a:hover, nav a.active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .container.nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 18px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand img {
+            width: 120px;
+            height: auto;
+            border: none;
+            background: transparent;
+            object-fit: contain;
+            max-width: 30vw;
+        }
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            word-break: break-word;
+        }
+        /* Hamburger styles */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            margin-left: 10px;
+            background: none;
+            border: none;
+            z-index: 201;
+        }
+        .hamburger span {
+            height: 4px;
+            width: 28px;
+            background: #333;
+            margin: 4px 0;
+            border-radius: 2px;
+            transition: 0.3s;
+            display: block;
+        }
+        .hamburger.open span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.open span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+        .events-section {
+            max-width: 800px;
+            margin: 40px auto 0 auto;
+            padding: 32px 24px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .events-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .events-header h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+        .event-list {
+            margin: 30px 0;
+            padding: 0;
+            list-style: none;
+        }
+        .event-item {
+            background: #fff;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            padding: 18px 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            position: relative;
+        }
+        .event-date {
+            font-weight: bold;
+            color: var(--accent);
+        }
+        .event-title {
+            font-size: 1.1rem;
+            color: #222;
+        }
+        .event-desc {
+            color: #555;
+            font-size: 0.97rem;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--danger);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 10px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .delete-btn:hover {
+            background: var(--danger-dark);
+        }
+        .add-event-form {
+            background: #eaf3fb;
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .add-event-form label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--accent);
+        }
+        .add-event-form input,
+        .add-event-form textarea {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 14px;
+            border: 1px solid #b5c9e8;
+            border-radius: 4px;
+            font-size: 1rem;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        .add-event-form button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 9px 22px;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .add-event-form button:hover {
+            background: var(--primary-dark);
+        }
+        footer .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 18px;
+            text-align: center;
+            font-size: 1rem;
+            color: #555;
+        }
+        /* Responsive Styles */
+        @media (max-width: 900px) {
+            .events-section {
+                max-width: 98vw;
+                padding: 18px 4vw;
+            }
+            .container.nav {
+                max-width: 98vw;
+                padding: 0 8px;
+            }
+        }
+        @media (max-width: 700px) {
+            .brand img {
+                width: 80px;
+            }
+            .events-header h2 {
+                font-size: 1.3rem;
+            }
+        }
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                padding: 0;
+                position: relative;
+            }
+            .container.nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .brand img {
+                width: 60px;
+            }
+            h1 {
+                font-size: 1.1rem;
+            }
+            .events-section {
+                padding: 12px 2vw;
+                margin: 18px auto 0 auto;
+            }
+            .add-event-form {
+                padding: 10px 4px;
+            }
+            .event-item {
+                padding: 12px 8px 32px 8px;
+                font-size: 0.97rem;
+            }
+            .delete-btn {
+                top: 8px;
+                right: 8px;
+                padding: 3px 8px;
+                font-size: 0.9rem;
+            }
+            .hamburger {
+                display: flex;
+                z-index: 201;
+            }
+            nav .nav-links {
+                display: none;
+                flex-direction: column;
+                align-items: flex-start;
+                width: 80vw;
+                max-width: 320px;
+                background: var(--nav-bg);
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: auto;
+                z-index: 200;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+                border-radius: 0 16px 16px 0;
+                overflow-y: auto;
+                min-height: 100vh;
+                height: 100vh;
+                padding-top: 56px;
+            }
+            nav .nav-links.open {
+                display: flex;
+            }
+            nav a {
+                width: 100%;
+                text-align: left;
+                padding: 16px 24px;
+                border-radius: 0;
+                border-bottom: 1px solid #e0e0e0;
+                font-size: 1.1rem;
+                box-sizing: border-box;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav">
+            <div class="brand">
+                <img src="nrcm-logo (1).jpeg" alt="NRCM Logo">
+                <h1>Narsimha Reddy Engineering College</h1>
+            </div>
+            <nav>
+                <button class="hamburger" aria-label="Menu" onclick="toggleMenu(this)">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Toastmasters</a>
+                    <a href="clubleads.html">Club Mentors & Leads</a>
+                    <a href="events.html" class="active">Events & Calendars</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="feedback.html">Feedback</a>
+                    <a href="login.html">Login</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="events-section">
+            <div class="events-header">
+                <h2>Upcoming Events & Calendar</h2>
+                <p>Stay updated with our latest Toastmasters events. Add your event below!</p>
+            </div>
+            <form class="add-event-form" id="addEventForm">
+                <label for="eventDate">Event Date</label>
+                <input type="date" id="eventDate" required>
+                <label for="eventTitle">Event Title</label>
+                <input type="text" id="eventTitle" placeholder="e.g. Speech Contest" required>
+                <label for="eventDesc">Description</label>
+                <textarea id="eventDesc" rows="2" placeholder="Event details..." required></textarea>
+                <button type="submit">Add Event</button>
+            </form>
+            <ul class="event-list" id="eventList">
+                <!-- Events will appear here -->
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            &copy; 2025 Narsimha Reddy Engineering College Toastmasters | All Rights Reserved
+        </div>
+    </footer>
+    <script>
+        // Hamburger menu JS
+        function toggleMenu(btn) {
+            btn.classList.toggle('open');
+            document.querySelector('.nav-links').classList.toggle('open');
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 600) {
+                        document.querySelector('.nav-links').classList.remove('open');
+                        document.querySelector('.hamburger').classList.remove('open');
+                    }
+                });
+            });
+        });
+
+        // Load events from localStorage or use default
+        function getEvents() {
+            const events = localStorage.getItem('nrcm_tm_events');
+            return events ? JSON.parse(events) : [
+                {
+                    date: '2025-08-20',
+                    title: 'Weekly Club Meeting',
+                    desc: 'Join us for our regular Toastmasters meeting. All are welcome!'
+                },
+                {
+                    date: '2025-08-27',
+                    title: 'Table Topics Workshop',
+                    desc: 'Practice impromptu speaking and quick thinking!'
+                }
+            ];
+        }
+        function saveEvents(events) {
+            localStorage.setItem('nrcm_tm_events', JSON.stringify(events));
+        }
+        function renderEvents() {
+            const eventList = document.getElementById('eventList');
+            let events = getEvents();
+            // Sort by date ascending
+            events = events.sort((a, b) => a.date.localeCompare(b.date));
+            // Only show upcoming events
+            const today = new Date().toISOString().split('T')[0];
+            eventList.innerHTML = '';
+            let hasUpcoming = false;
+            events.forEach((event, idx) => {
+                if (event.date >= today) {
+                    hasUpcoming = true;
+                    const li = document.createElement('li');
+                    li.className = 'event-item';
+                    li.innerHTML = `
+                        <span class="event-date">${event.date}</span>
+                        <span class="event-title">${event.title}</span>
+                        <span class="event-desc">${event.desc}</span>
+                        <button class="delete-btn" data-idx="${idx}" title="Delete Event">Delete</button>
+                    `;
+                    eventList.appendChild(li);
+                }
+            });
+            if (!hasUpcoming) {
+                eventList.innerHTML = '<li class="event-item">No upcoming events.</li>';
+            }
+            // Attach delete handlers
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    deleteEvent(parseInt(this.getAttribute('data-idx')));
+                });
+            });
+        }
+        function deleteEvent(idx) {
+            let events = getEvents();
+            // Only show upcoming events, so idx is relative to filtered list
+            const today = new Date().toISOString().split('T')[0];
+            // Find the idx-th upcoming event in the full list
+            let filteredIdx = -1;
+            for (let i = 0; i < events.length; i++) {
+                if (events[i].date >= today) {
+                    filteredIdx++;
+                    if (filteredIdx === idx) {
+                        events.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+            saveEvents(events);
+            renderEvents();
+        }
+        document.getElementById('addEventForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const date = document.getElementById('eventDate').value;
+            const title = document.getElementById('eventTitle').value.trim();
+            const desc = document.getElementById('eventDesc').value.trim();
+            if (!date || !title || !desc) return;
+            const events = getEvents();
+            events.push({ date, title, desc });
+            saveEvents(events);
+            renderEvents();
+            this.reset();
+        });
+        // Initial render
+        renderEvents();
+    </script>
+</body>
+</html>

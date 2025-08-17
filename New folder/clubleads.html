@@ -1,0 +1,662 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Leads & Mentors - NRCM Toastmasters</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --nav-bg: #f5f5f5;
+            --primary: #0074d9;
+            --primary-dark: #005fa3;
+            --accent: #18408b;
+        }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #fff;
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+            justify-content: flex-end;
+            align-items: center;
+            background: var(--nav-bg);
+            padding: 10px 0;
+            position: relative;
+        }
+        nav .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background 0.2s, color 0.2s;
+            font-size: 1rem;
+        }
+        nav a:hover, nav a.active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .container.nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 18px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand img {
+            width: 120px;
+            height: auto;
+            border: none;
+            background: transparent;
+            object-fit: contain;
+            max-width: 30vw;
+        }
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            word-break: break-word;
+        }
+
+        /* Hamburger styles */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            margin-left: 10px;
+            background: none;
+            border: none;
+        }
+        .hamburger span {
+            height: 4px;
+            width: 28px;
+            background: #333;
+            margin: 4px 0;
+            border-radius: 2px;
+            transition: 0.3s;
+            display: block;
+        }
+        /* Hamburger open state */
+        .hamburger.open span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.open span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .breadcrumb {
+            background: #f5f5f5;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+        .breadcrumb-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .leads-section {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .section-title {
+            text-align: center;
+            color: var(--accent);
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+        }
+        .leads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        .lead-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .lead-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .lead-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 3px solid var(--primary);
+        }
+        .lead-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+        .lead-role {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        .lead-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .lead-description.extra {
+            display: none;
+        }
+        .lead-description.expanded.extra {
+            display: block;
+            animation: fadein 0.4s;
+        }
+        @keyframes fadein {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .read-more-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 6px 18px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background 0.2s;
+        }
+        .read-more-btn:hover {
+            background: var(--primary-dark);
+        }
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .contact-btn {
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+        .contact-btn:hover {
+            background: var(--primary-dark);
+        }
+        .mentors-section {
+            margin-top: 60px;
+        }
+        .mentors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        .mentor-card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .mentor-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            border: 2px solid var(--accent);
+        }
+        .mentor-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+        .mentor-expertise {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        footer .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 18px;
+            text-align: center;
+            font-size: 1rem;
+            color: #555;
+        }
+        /* Responsive Styles */
+        @media (max-width: 900px) {
+            .leads-section {
+                max-width: 98vw;
+                padding: 0 4vw;
+            }
+            .container.nav {
+                max-width: 98vw;
+                padding: 0 8px;
+            }
+        }
+        @media (max-width: 700px) {
+            .brand img {
+                width: 80px;
+            }
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .leads-grid {
+                gap: 18px;
+            }
+            .mentor-card {
+                padding: 14px;
+            }
+        }
+        @media (max-width: 768px) {
+            nav {
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                padding: 0;
+                position: relative;
+            }
+            .hamburger {
+                display: flex;
+            }
+            nav .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: var(--nav-bg);
+                position: absolute;
+                top: 46px;
+                left: 0;
+                z-index: 100;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            }
+            nav .nav-links.open {
+                display: flex;
+            }
+            nav a {
+                width: 100%;
+                padding: 12px 18px;
+                border-radius: 0;
+                border-bottom: 1px solid #e0e0e0;
+                font-size: 1.05rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .container.nav {
+                justify-content: space-between;
+                align-items: center;
+                flex-direction: row;
+                padding: 8px 15px;
+            }
+            .brand img {
+                width: 60px;
+            }
+            h1, .section-title {
+                font-size: 1.1rem;
+            }
+            .leads-section {
+                padding: 8px 2vw;
+                margin: 18px auto;
+            }
+            .leads-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .lead-card {
+                padding: 14px 6px;
+            }
+            .lead-photo {
+                width: 90px;
+                height: 90px;
+                margin-bottom: 10px;
+            }
+            .mentor-card {
+                padding: 10px 4px;
+            }
+            .mentor-photo {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 8px;
+            }
+            .mentors-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav">
+            <div class="brand">
+                <img src="nrcm-logo (1).jpeg" alt="NRCM Logo">
+                <h1>Narsimha Reddy Engineering College</h1>
+            </div>
+            <nav>
+                <button class="hamburger" aria-label="Menu" onclick="toggleMenu(this)">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Toastmasters</a>
+                    <a href="clubleads.html" class="active">Club Leads & Mentors</a>
+                    <a href="events.html">Events & Calendars</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="feedback.html">Feedback</a>
+                    <a href="login.html">Login</a>
+                </div>
+            </nav>
+            
+            <!-- Hamburger Menu Button -->
+            <div class="hamburger-menu" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Toastmasters</a>
+            <a href="clubleads.html" class="active">Club Mentors & Leads</a>
+            <a href="events.html">Events & Calendars</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="login.html">Login</a>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <div class="breadcrumb-content">
+            <a href="index.html">Home</a> &gt; Club Leads & Mentors
+        </div>
+    </div>
+
+    <main>
+        <div class="leads-section">
+            <h1 class="section-title">Club Leads & Mentors</h1>
+            
+            <h2 style="text-align: center; color: #18408b; margin-bottom: 30px;">Current Club Leadership</h2>
+            <div class="leads-grid">
+                <div class="lead-card">
+                    <img src="akshay (2).png" alt="Club President" class="lead-photo">
+                    <h3 class="lead-name">I.Akshay Snehith</h3>
+                    <p class="lead-role">President</p>
+                    <p class="lead-description">Im Akshay Snehith, I am a dedicated student of B.Tech in Artificial Intelligence & Machine Learning with a deep passion for public speaking, leadership, and personal development.</p>
+                    <p class="lead-description extra">
+                        I firmly believe in the transformative power of effective communication to inspire, influence, and create meaningful impact. My journey is driven by the aspiration to become a distinguished motivational speaker and a catalyst for positive change.
+                    </p>
+                    <p class="lead-description extra">
+                        <b>Role in TMC:</b> As the President of the Toastmasters Club at NRCM, I am responsible for leading the club's strategic direction, ensuring the seamless execution of meetings and events, and upholding the club's mission and values. I work closely with the executive committee to foster a professional, inclusive, and growth-oriented environment where members can confidently enhance their communication and leadership skills.
+                    </p>
+                    <p class="lead-description extra">
+                        <b>Aim:</b> Through my role in Toastmasters, I aim to empower members to discover and refine their unique voice, develop strong leadership capabilities, and excel both on and off the stage. My vision is to build a thriving club community that embodies excellence, mutual support, and continuous self-improvement.
+                    </p>
+                    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
+                    <div class="contact-info">
+                        
+                    </div>
+                </div>
+                
+                <div class="lead-card">
+                    <img src="sravya (1).png" alt="Vice President Education" class="lead-photo">
+                    <h3 class="lead-name">B. Uma Sravya</h3>
+                    <p class="lead-role">Vice President</p>
+                    <p class="lead-description">I'm B.Uma Sravya, a student of B.Tech in ECE.
+I have always been passionate about the world of technology, especially in E & C, and I'm fascinated by the ever-evolving IT sector.</p>
+                    <p class="lead-description extra">
+                        <b>Role in TMC:</b> As the Vice President of NRCM Toastmasters Club, I am honored to serve as both a leader and a motivator, working alongside the executive  committee to ensure our club runs smoothly and effectively. My responsibilities include supporting the President in planning and executing meetings, encouraging active participation, and creating a welcoming environment for both new and existing members 
+ Aim: My aim as Vice President of NRCM Toastmasters Club is to lead with purpose, passion, and a commitment to growth. I strive to create an environment where every member feels valued, welcomed, and motivated to participate actively. One of my key goals is to help members overcome stage fear, speak with confidence, and develop strong communication skills that will benefit them for life. Through engaging and well-structured meetings, I aim to nurture leadership qualities, teamwork, and mutual respect among members.
+                    </p>
+                
+                    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
+                    <div class="contact-info">
+                        
+                    </div>
+                </div>
+                
+                <div class="lead-card">
+                    <img src="ramchander.png.jpeg" alt="secretary" class="lead-photo">
+                    <h3 class="lead-name">I. Ram Chander</h3>
+                    <p class="lead-role">Secretary</p>
+                    <p class="lead-description">I'm Ram Chander, a B.Tech ECE student at NRCM, passionate about technology, innovation, and combining technical skills with strong communication to make an impact.</p>
+                    <p class="lead-description extra">
+                        <b>Role:</b> As the Secretary of NRCM Toastmasters Club, I am responsible for maintaining accurate records of meetings, agendas, and decisions. I coordinate with the executive committee to plan events and keep members informed about upcoming activities. My role involves preparing and sharing meeting agendas, minutes, and important announcements. I also handle communication within the club to ensure every member stays updated and engaged. This position has improved my organizational, time-management, and communication skills. I see my role as more than administrative — it's about keeping the club running smoothly and helping members focus on their growth.
+
+                    <p class="lead-description extra">
+                        <b>Aim:</b> My aim as Secretary is to ensure that NRCM Toastmasters Club operates efficiently, with clear communication and strong coordination. I want to create an environment where every member feels included, motivated, and ready to participate. I aim to make meetings productive, events well-organized, and communication seamless. My goal is to support members in their learning journey by providing them with the right information and encouragement. I also want to help bridge the gap between planning and execution so our ideas turn into successful events. Above all, I aim to serve the club with dedication, discipline, and positivity, contributing to its growth and excellence.
+                    </p>
+                    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
+                    <div class="contact-info">
+                        
+                    </div>
+                </div>
+                
+                <div class="lead-card">
+    <img src="nikhil (1).png" alt="treasurer" class="lead-photo">
+    <h3 class="lead-name">Nikhil Kumar</h3>
+    <p class="lead-role">Treasurer</p>
+    <p class="lead-description">
+        I'm Nikhil, a passionate learner and communicator who uses the power of words to inspire and create change, valuing teamwork, discipline, and a positive mindset.
+    </p>
+    <p class="lead-description extra">
+        <b>Role:</b> As the <i>Treasurer</i> of our club, I am responsible for managing the club's finances effectively. This includes maintaining accurate records, ensuring timely collection of membership dues, budgeting for club activities, and keeping members informed about our financial health. My role supports the smooth functioning of the club so members can focus on their speaking and leadership journeys.
+    </p>
+    <p class="lead-description extra">
+        <b>Aim:</b> My aim is to contribute to a strong, active, and financially healthy club that empowers members to become confident speakers and leaders. I also strive to improve my own communication and leadership skills, inspire others, and build a network of motivated individuals who grow together.
+    </p>
+    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
+    <div class="contact-info">
+        
+    </div>
+</div>
+                
+                <div class="lead-card">
+                    <img src="harshini (1).png" alt="content creator" class="lead-photo">
+                    <h3 class="lead-name">G. Harshini Durga</h3>
+                    <p class="lead-role">Content Creator</p>
+                    <p class="lead-description">I'm Harshini, passionate about words, design, and storytelling, using creativity to give ideas meaning and connect with people.</p>
+                    
+                    <p class="lead-description extra">
+                        <b>Role:</b> As the Content Creator of our Toastmasters Club, I'm the one working behind the scenes to shape how we present ourselves to the world. From catchy captions and engaging scripts to fresh post ideas, I make sure our content reflects the club's energy and personality. My work involves planning posts, designing visuals, and ensuring that every piece of content feels relatable, engaging, and true to the Toastmasters spirit. I collaborate with the marketing team and other members to bring ideas to life. Whether it's showcasing event highlights or sharing inspiring moments, I aim to keep our platforms lively and inviting. My role is not just about posting updates — it's about telling our story in a way that connects with both current members and those who might join in the future.
+
+
+                    </p>
+                    <p class="lead-description extra">
+                        <b>Aim:</b> My goal as Content Creator is to build a strong and inspiring presence for our club, both online and offline. I want our content to do more than just inform — I want it to spark curiosity, encourage participation, and make people feel a part of something bigger. I aim to create posts, designs, and stories that capture the true essence of Toastmasters — learning, leadership, and connection. Through creativity and collaboration, I want to make our club stand out and stay memorable. I also hope to inspire conversations, celebrate our members' achievements, and highlight the energy that makes our club unique. For me, content creation is not just a task, but a way to leave a lasting impression that motivates people to join, stay, and grow with us.
+                    </p>
+                    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
+                    <div class="contact-info">
+                        
+                    </div>
+                </div>
+                
+                <!-- Only the fixed lead-card for Y.V. Sarayu -->
+<div class="lead-card">
+    <img src="sarayu (1).png" alt="marketing lead" class="lead-photo">
+    <h3 class="lead-name">Y.V. Sarayu</h3>
+    <p class="lead-role">Marketing</p>
+    <p class="lead-description">
+        I'm Y.V. Sarayu, a Cyber Security student passionate about tech, teamwork, and turning challenges into growth opportunities.
+    </p>
+    <p class="lead-description extra">
+        <b>Role:</b> As the Event Organiser Lead, I am responsible for planning, coordinating, and managing the club's events. I work with the executive team to ensure every meeting or program is well-prepared and runs smoothly. My role involves handling logistics, assigning roles, and making sure all arrangements are in place. I aim to bring creativity and structure to every event so members enjoy a meaningful and engaging experience. This role has helped me improve my organization, leadership, and time management skills. I believe well-organized events are key to keeping our club active and inspiring.
+
+    </p>
+    <p class="lead-description extra">
+        <b>Aim:</b> My aim as Event Organiser Lead is to create impactful and well-structured events that motivate members to participate actively. I want each meeting to inspire learning, teamwork, and confidence. By combining careful planning with creative ideas, I hope to make every event memorable and valuable. I aim to ensure all members feel included, supported, and encouraged to take part. Ultimately, my goal is to contribute to the club's growth and help create an environment where members can learn, lead, and succeed.
+    </p>
+    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
+    <div class="contact-info">
+        
+    </div>
+</div>
+
+                <div class="lead-card">
+                    <img src="samitha (1).png" alt="event orginizer" class="lead-photo">
+                    <h3 class="lead-name">D. Samitha</h3>
+                    <p class="lead-role">Event Organizer</p>
+                    <p class="lead-description">I'm D. Samitha, a B.Tech ECE student passionate about technology, innovation, and continuous learning.</p>
+                    <p class="lead-description extra">
+                        Organizes and coordinates club events, competitions, and special meetings. Works with other officers to ensure successful event execution.
+                    </p>
+                    <p class="lead-description extra">
+                        <b>Role:</b> As the Event Organiser Lead, I am responsible for planning, coordinating, and managing the club's events. I work with the executive team to ensure every meeting or program is well-prepared and runs smoothly. My role involves handling logistics, assigning roles, and making sure all arrangements are in place. I aim to bring creativity and structure to every event so members enjoy a meaningful and engaging experience. This role has helped me improve my organization, leadership, and time management skills. I believe well-organized events are key to keeping our club active and inspiring.
+
+                    </p>
+                    <p class="lead-description extra">
+                        <b>Aim:</b> My aim as Event Organiser Lead is to create impactful and well-structured events that motivate members to participate actively. I want each meeting to inspire learning, teamwork, and confidence. By combining careful planning with creative ideas, I hope to make every event memorable and valuable. I aim to ensure all members feel included, supported, and encouraged to take part. Ultimately, my goal is to contribute to the club's growth and help create an environment where members can learn, lead, and succeed.
+                    </p>
+                    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
+                    <div class="contact-info">
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="mentors-section">
+                <h2 style="text-align: center; color: #18408b; margin-bottom: 30px;">Club Mentors & Advisors</h2>
+                <div class="mentors-grid">
+                    <div class="mentor-card">
+                        <img src="Dr.ramu.png.jpeg" alt="Dr.Ramu sir" class="mentor-photo">
+                        <h3 class="mentor-name">Dr. Ramu Gandikota
+</h3>
+                        <p class="mentor-expertise">
+Head & Dean – Career Development Centre-
+Mentor  Toastmasters Club</p>
+                        <p>Dr. Ramu Gandikota is a distinguished academic leader and a committed mentor who plays a vital role in shaping students’ careers and fostering strong leadership qualities. As the Mentor of the Toastmasters Club, he motivates and guides members to build self-confidence, master effective communication, and embrace a growth mindset—empowering them to achieve excellence in both their professional and personal lives.</p>
+                    </div>
+                    
+                    <div class="mentor-card">
+                        <img src="nasrat tabasum1.jpeg" alt="Nasarat Tabasum" class="mentor-photo">
+                        <h3 class="mentor-name">Ms.Nasarat Tabasum</h3>
+                        <p class="mentor-expertise">Soft skills Trainer -Career Development Center- 
+Mentor ToastMasters Club </p>
+                        <p>Nasarat Tabasum is a passionate Soft Skills Trainer at Narasimha Reddy Engineering College and a dedicated Mentor for our Toastmasters Club. With her expertise in communication, leadership, and personality development, she has been a guiding force for our members, helping them unlock their potential and grow with confidence.She strongly believes in the power of communication to transform lives and continues to motivate our members to achieve excellence both on stage and beyond.</p>
+                    </div>
+                    
+                    
+                    
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            &copy; 2025 Narsimha Reddy Engineering College | All Rights Reserved
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu(btn) {
+            btn.classList.toggle('open');
+            document.querySelector('.nav-links').classList.toggle('open');
+        }
+
+        // Read More functionality for each lead
+        function toggleReadMore(btn) {
+            const card = btn.closest('.lead-card');
+            const extras = card.querySelectorAll('.lead-description.extra');
+            const expanded = btn.getAttribute('data-expanded') === 'true';
+            extras.forEach(desc => {
+                if (expanded) {
+                    desc.classList.remove('expanded');
+                } else {
+                    desc.classList.add('expanded');
+                }
+            });
+            btn.textContent = expanded ? 'Read More' : 'Read Less';
+            btn.setAttribute('data-expanded', expanded ? 'false' : 'true');
+        }
+
+        // JavaScript for interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Close menu when a link is clicked (on mobile)
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        document.querySelector('.nav-links').classList.remove('open');
+                        document.querySelector('.hamburger').classList.remove('open');
+                    }
+                });
+            });
+
+            // Add smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Add hover effects for cards
+            const cards = document.querySelectorAll('.lead-card, .mentor-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                });
+            });
+        });
+    </script>

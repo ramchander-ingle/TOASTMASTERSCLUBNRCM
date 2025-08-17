@@ -1,0 +1,342 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - NRCM Toastmasters</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --nav-bg: #f5f5f5;
+            --primary: #0074d9;
+            --primary-dark: #005fa3;
+            --accent: #18408b;
+        }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #fff;
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+            justify-content: flex-end;
+            align-items: center;
+            background: var(--nav-bg);
+            padding: 10px 0;
+            position: relative;
+        }
+        nav .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background 0.2s, color 0.2s;
+            font-size: 1rem;
+        }
+        nav a:hover, nav a.active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .container.nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 18px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand img {
+            width: 120px;
+            height: auto;
+            border: none;
+            background: transparent;
+            object-fit: contain;
+            max-width: 30vw;
+        }
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            word-break: break-word;
+        }
+        /* Hamburger styles */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            margin-left: 10px;
+            background: none;
+            border: none;
+            z-index: 201;
+        }
+        .hamburger span {
+            height: 4px;
+            width: 28px;
+            background: #333;
+            margin: 4px 0;
+            border-radius: 2px;
+            transition: 0.3s;
+            display: block;
+        }
+        .hamburger.open span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.open span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+        .login-section {
+            max-width: 400px;
+            margin: 40px auto 0 auto;
+            padding: 32px 24px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .login-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .login-tab {
+            padding: 8px 20px;
+            background: #eaf3fb;
+            color: var(--primary);
+            border: none;
+            border-radius: 20px 20px 0 0;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+        .login-tab.active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .login-form {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .login-form.active {
+            display: flex;
+        }
+        .login-form label {
+            font-weight: 500;
+            color: var(--accent);
+        }
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #b5c9e8;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .login-form button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 0;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .login-form button:hover {
+            background: var(--primary-dark);
+        }
+        .login-message {
+            color: var(--primary);
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                padding: 0;
+                position: relative;
+            }
+            .container.nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .brand img {
+                width: 60px;
+            }
+            h1 {
+                font-size: 1.1rem;
+            }
+            .login-section {
+                padding: 12px 2vw;
+                margin: 18px auto 0 auto;
+            }
+            .hamburger {
+                display: flex;
+                z-index: 201;
+            }
+            nav .nav-links {
+                display: none;
+                flex-direction: column;
+                align-items: flex-start;
+                width: 80vw;
+                max-width: 320px;
+                background: var(--nav-bg);
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: auto;
+                z-index: 200;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+                border-radius: 0 16px 16px 0;
+                overflow-y: auto;
+                min-height: 100vh;
+                height: 100vh;
+                padding-top: 56px;
+            }
+            nav .nav-links.open {
+                display: flex;
+            }
+            nav a {
+                width: 100%;
+                text-align: left;
+                padding: 16px 24px;
+                border-radius: 0;
+                border-bottom: 1px solid #e0e0e0;
+                font-size: 1.1rem;
+                box-sizing: border-box;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav">
+            <div class="brand">
+                <img src="nrcm-logo (1).jpeg" alt="NRCM Logo">
+                <h1>Narsimha Reddy Engineering College</h1>
+            </div>
+            <nav>
+                <button class="hamburger" aria-label="Menu" onclick="toggleMenu(this)">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Toastmasters</a>
+                    <a href="clubleads.html">Club Mentors & Leads</a>
+                    <a href="events.html">Events & Calendars</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="feedback.html">Feedback</a>
+                    <a href="login.html" class="active">Login</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="login-section">
+            <div class="login-tabs">
+                <button class="login-tab active" onclick="showLogin('lead')">Lead Login</button>
+                <button class="login-tab" onclick="showLogin('member')">Member Login</button>
+            </div>
+            <form class="login-form active" id="leadLoginForm" onsubmit="return handleLogin(event, 'lead')">
+                <label for="lead-username">Lead Username</label>
+                <input type="text" id="lead-username" required>
+                <label for="lead-password">Password</label>
+                <input type="password" id="lead-password" required>
+                <button type="submit">Login as Lead</button>
+            </form>
+            <form class="login-form" id="memberLoginForm" onsubmit="return handleLogin(event, 'member')">
+                <label for="member-username">Member Username</label>
+                <input type="text" id="member-username" required>
+                <label for="member-password">Password</label>
+                <input type="password" id="member-password" required>
+                <button type="submit">Login as Member</button>
+            </form>
+            <div class="login-message" id="loginMessage"></div>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            &copy; 2025 Narsimha Reddy Engineering College Toastmasters | All Rights Reserved
+        </div>
+    </footer>
+    <script>
+        // Hamburger menu JS
+        function toggleMenu(btn) {
+            btn.classList.toggle('open');
+            document.querySelector('.nav-links').classList.toggle('open');
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 600) {
+                        document.querySelector('.nav-links').classList.remove('open');
+                        document.querySelector('.hamburger').classList.remove('open');
+                    }
+                });
+            });
+        });
+
+        function showLogin(type) {
+            document.querySelectorAll('.login-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.login-form').forEach(form => form.classList.remove('active'));
+            if (type === 'lead') {
+                document.querySelector('.login-tab:nth-child(1)').classList.add('active');
+                document.getElementById('leadLoginForm').classList.add('active');
+            } else {
+                document.querySelector('.login-tab:nth-child(2)').classList.add('active');
+                document.getElementById('memberLoginForm').classList.add('active');
+            }
+            document.getElementById('loginMessage').textContent = '';
+        }
+
+        function handleLogin(event, type) {
+            event.preventDefault();
+            let username, password;
+            if (type === 'lead') {
+                username = document.getElementById('lead-username').value;
+                password = document.getElementById('lead-password').value;
+            } else {
+                username = document.getElementById('member-username').value;
+                password = document.getElementById('member-password').value;
+            }
+            // Demo: Accept any non-empty credentials
+            if (username && password) {
+                document.getElementById('loginMessage').textContent = `Logged in as ${type === 'lead' ? 'Lead' : 'Member'}: ${username}`;
+            } else {
+                document.getElementById('loginMessage').textContent = 'Please enter valid credentials.';
+            }
+            return false;
+        }
+    </script>
+</body>
+</html>

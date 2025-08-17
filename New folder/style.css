@@ -1,0 +1,98 @@
+ body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f6f9;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    background: #18408b;
+    color: #fff;
+    padding: 12px 0;
+}
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    min-height: 50px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    min-width: 0;
+}
+
+.brand img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.brand h1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.2;
+}
+nav a {
+    color: #fff;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: 500;
+}
+nav a:hover {
+    text-decoration: underline;
+}
+.hero {
+    background: linear-gradient(90deg, #18408b 60%, #6190e8 100%);
+    color: #fff;
+    padding: 60px 0 40px 0;
+    text-align: center;
+}
+.notice-board {
+    background: #fff;
+    padding: 24px;
+    margin: 30px 0;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(20,60,100,0.1);
+}
+.notice-board h3 {
+    color: #18408b;
+    margin-top: 0;
+}
+.notice-board ul {
+    padding-left: 18px;
+}
+.highlights .cards {
+    display: flex;
+    gap: 16px;
+    margin-top: 18px;
+}
+.card {
+    background: #eee;
+    padding: 20px;
+    border-radius: 6px;
+    flex: 1;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(30,60,110,0.05);
+    font-weight: 500;
+}
+footer {
+    background: #18408b;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+}
